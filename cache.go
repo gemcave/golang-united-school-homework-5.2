@@ -17,11 +17,11 @@ func NewCache() Cache {
 }
 
 func (c *Cache) Get(key string) (string, bool) {
-	
-	for i:= range c.items {
-		if c.items[i].key === key && !c.items[i].shouldExpire  {
+
+	for i := range c.items {
+		if c.items[i].key == key && !c.items[i].shouldExpire {
 			return c.items[i].value, true
-		} else if c.items[i].key === key && c.items[i].expTime.After(time.Now()) {
+		} else if c.items[i].key == key && c.items[i].expTime.After(time.Now()) {
 			return c.items[i].value, true
 		}
 	}
@@ -33,7 +33,7 @@ func (c *Cache) Put(key, value string) {
 	keys := c.Keys()
 	isPut := false
 
-	for _, cKey:= range keys {
+	for _, cKey := range keys {
 		if cKey == key {
 			isPut = true
 			break
@@ -41,7 +41,7 @@ func (c *Cache) Put(key, value string) {
 	}
 
 	if isPut {
-		for i:= range c.items {
+		for i := range c.items {
 			if c.items[i].key == key {
 				c.items[i].value = value
 				c.items[i].shouldExpire = false
@@ -55,7 +55,7 @@ func (c *Cache) Put(key, value string) {
 
 func (c *Cache) Keys() []string {
 	var keys []string
-	for i:= range c.storage {
+	for i := range c.items {
 		if !c.items[i].shouldExpire {
 			keys = append(keys, c.items[i].key)
 		} else if c.items[i].expTime.After(time.Now()) {
@@ -79,7 +79,7 @@ func (c *Cache) PutTill(key, value string, deadline time.Time) {
 	}
 
 	if isPut {
-		for i:= range c.items {
+		for i := range c.items {
 			if c.items[i].key == key {
 				c.items[i].value = value
 				c.items[i].shouldExpire = true
