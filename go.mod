@@ -1,3 +1,3 @@
-module gemcave/golang-united-school-homework-5.2
+module cache
 
 go 1.18
